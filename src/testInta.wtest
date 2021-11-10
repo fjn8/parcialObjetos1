@@ -1,0 +1,47 @@
+import Plantas.*
+import Parcelas.*
+import INTA.*
+
+describe "tests INTA" {
+	const parcela = new ParcelaEcologica(ancho = 20, largo = 5, horasDeSol = 8)
+	const parcela2 = new ParcelaIndustrial(ancho = 20, largo = 5, horasDeSol = 8)
+	const menta1 = new Menta(altura = 1, anioObtencionSemilla = 2015)
+	const menta2 = new Menta(altura = 0.3, anioObtencionSemilla = 2012)
+	const hierbabuena = new Hierbabuena(altura = 1, anioObtencionSemilla = 2017)
+	const soja1 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja2 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja3 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja4 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja5 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja6 = new Soja(altura = 0.4, anioObtencionSemilla = 2010)
+	const sojaTransgenica = new SojaTransgenica(altura = 0.6, anioObtencionSemilla = 2009)
+	const quinoa1 = new Quinoa(altura = 1, anioObtencionSemilla = 2010, horasDeToleranciaAlSol = 12)
+	const quinoa2 = new Quinoa(altura = 1, anioObtencionSemilla = 2001, horasDeToleranciaAlSol = 9)
+	
+	method initialize() {
+		parcela.plantar(soja1)
+		parcela.plantar(soja2)
+		parcela.plantar(soja3)
+		parcela.plantar(soja4)
+		parcela.plantar(soja5)
+		
+		parcela2.plantar(quinoa1)
+		parcela2.plantar(soja1)
+		parcela2.plantar(soja2)
+		parcela2.plantar(soja3)
+		parcela2.plantar(soja4)
+		parcela2.plantar(soja5)
+		parcela2.plantar(quinoa2)
+		
+		inta.agregarParcela(parcela)
+		inta.agregarParcela(parcela2)
+	}
+	
+	test "promedio de plantas por parcela" {
+		assert.equals(inta.promedioPlantasPorParcela(), 6)
+	}
+	
+	test "parcela mas autosustentable" {
+		assert.equals(inta.parcelaMasAutosustentable(), parcela)
+	}
+}

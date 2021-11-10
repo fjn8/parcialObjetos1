@@ -1,0 +1,52 @@
+import Parcelas.*
+import Plantas.*
+
+describe "tests parcelas" {
+	const parcela = new ParcelaEcologica(ancho = 20, largo = 1, horasDeSol = 8)
+	const parcela2 = new ParcelaIndustrial(ancho = 20, largo = 1, horasDeSol = 8)
+	const soja1 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja2 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja3 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja4 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja5 = new Soja(altura = 1.3, anioObtencionSemilla = 2010)
+	const soja6 = new Soja(altura = 0.4, anioObtencionSemilla = 2010)
+	const menta = new Menta(altura = 0.3, anioObtencionSemilla = 2011)
+	const hierbabuena = new Hierbabuena(altura = 0.3, anioObtencionSemilla = 2011)
+	const quinoa = new Quinoa(altura = 1, anioObtencionSemilla = 2010, horasDeToleranciaAlSol = 12)
+	const sojaTransgenica = new SojaTransgenica(altura = 0.6, anioObtencionSemilla = 2009)
+	
+	method initialize() {
+		parcela.plantar(soja1)
+		parcela.plantar(soja2)
+		parcela.plantar(soja3)
+	}
+	
+	test "test parcela" {
+		assert.equals(parcela.superficie(), 20)
+		assert.equals(parcela.cantidadMaximaDePlantas(), 4)
+		
+		assert.throwsExceptionWithMessage("La planta tolera tanto sol", { parcela.plantar(soja6) })
+		
+		parcela.plantar(soja4)
+		
+		assert.throwsExceptionWithMessage("La parcela está al máximo de ocupación", { parcela.plantar(soja5) })
+	}
+	
+	test "parcelas ideales" {
+		assert.that(menta.esParcelaIdeal(parcela))
+		assert.that(hierbabuena.esParcelaIdeal(parcela))
+		assert.that(quinoa.esParcelaIdeal(parcela))
+		assert.notThat(soja1.esParcelaIdeal(parcela))
+		assert.notThat(sojaTransgenica.esParcelaIdeal(parcela))
+	}
+	
+	test "asociacion de plantas en parcela ecologica" {
+		assert.that(parcela.seAsociaBien(menta))
+		assert.notThat(parcela.seAsociaBien(sojaTransgenica))
+	}
+	
+	test "asociacion de plantas en parcela industrial" {
+		assert.that(parcela2.seAsociaBien(quinoa))
+		assert.notThat(parcela2.seAsociaBien(menta))
+	}
+}
